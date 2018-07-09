@@ -1,0 +1,13 @@
+{
+  "serverUrl" : "[Profit trailer URL, no ending slash]",
+  "token" : "[profit trailer API token]",
+  "license": "[your profit trailer license]",
+
+  "binanceKey" : "[BINANCE_KEY_WITH_TRADING_ENABLED]",
+  "binanceSecret" : "[SECRET_FOR_ABOVE_KEY]",
+
+  "lossLimit" : -15,
+  "maxCost" : 0.01,
+  "maxPairs" : 5,
+  "targetLossLevel" : 0.01
+}

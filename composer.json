@@ -1,0 +1,13 @@
+{
+    "require": {
+        "jaggedsoft/php-binance-api": "@dev",
+        "nategood/httpful": "^0.2.20",
+        "tightenco/collect": "^5.6",
+        "apix/log": "1.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "DcaDiluter\\": "src"
+        }
+    }
+}

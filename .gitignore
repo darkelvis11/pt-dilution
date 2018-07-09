@@ -1,0 +1,6 @@
+vendor/
+logs/
+config.json
+state.json
+.DS_Store
+.idea

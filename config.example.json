@@ -9,5 +9,5 @@
   "lossLimit" : -15,
   "maxCost" : 0.01,
   "maxPairs" : 5,
-  "targetLossLevel" : 0.01
+  "targetLossLevel" : -0.01
 }

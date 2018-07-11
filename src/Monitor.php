@@ -111,7 +111,10 @@ class Monitor
                     // Are indicators telling us it's time to buy?
                     $buy = true;
                     foreach ($dcaPair->buyStrategies as $buyStrategy) {
-                        if (in_array($buyStrategy->name, ['MAX BUY TIMES', 'ANDERSON', 'SOM ENABLED'])) {
+                        $name = $buyStrategy->name;
+                        $name = explode('&', $name)[0];
+                        $name = trim($name);
+                        if (in_array($name, ['MAX BUY TIMES', 'ANDERSON', 'SOM ENABLED'])) {
                             continue;
                         }
 

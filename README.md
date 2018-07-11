@@ -4,13 +4,19 @@ Experimental script to get out of Profit Trailer bags using dilution.
 ## Requirements
 
  - PHP 7.0 or higher
- - Working composer
+ - Composer
+ - Git
  - Profit Trailer 2.0 or higher
  - Binance account
 
 ## Installation
 
 Clone this repo. *NOTE!!* Do not clone this repo into a folder with public http access. The config file with your Binance keys will get exposed on the internet if you do. If you don't understand what this means, please don't continue.
+```
+git clone https://github.com/darkelvis11/pt-dilution.git
+cd pt-dilution
+```
+
 
 Run composer 
 ```
@@ -38,7 +44,7 @@ Set up a schedule with crontab (make sure user has write access to logs/ folder)
 Once pt-dilution takes control over a coin, it will do the following:
 
 ### 1. Wait for big enough loss
-pt-dilution will ignore all pairs with a fair chance of recovering using your normal strategy. But once a coin is below ```lossLimit```, the pair will get dca level = 99 to mark is as under pt-dilution control (and very few PT2 strategies has more than 99 DCA levels, so further buys made by PT2 are unlikely)
+pt-dilution will ignore all pairs with a fair chance of recovering using your normal strategy. But once a coin is below ```lossLimit```, the pair will get dca level = 99 to mark is as under pt-dilution control (and very few PT2 strategies has more than 99 DCA levels, so further buys made by PT2 are unlikely, please double check your DCA strategy to be sure)
 
 ### 2. Calculate number of slices
 Pt-dilution will calculate how many slices the pair needs to be divided into. The target is to use as few slices as possible that uses all your ```maxCost``` BTC that satisfies the ```targetLossLevel```.
@@ -47,15 +53,15 @@ Pt-dilution will calculate how many slices the pair needs to be divided into. Th
 pt-dilution creates a sale order on Binance that is 1.5% higher than your original average price. Since this is probably a lot higher than the current bid, this order will just sit and wait on Binance. After a few minutes (2-7) PT2 will notice the sale order on Binance and the coin will be visible in PT2 pending log. But since the sale order isn't for the whole amount of your coin, one part (slice) of the coin will still sit in the DCA log. PT2 often screws up the pair average price, so pt-dilution also recalculates the average if needed.
 
 ### 4 Wait for and perform the buy
-Once the pair is visible in the pending log. pt-dilution will wait for the right time to buy. It will use the same buy strategies that you already have for DCA coins but with no trailing. If you're just using Anderson, this means that pt-dilution will buy straight away. If you're using i.e RSI to time the buy, pt-dilution will wait for the RSI indicator to become true. Once the buy is made, a market order is sent to Binance.
+Once the pair is visible in the pending log. pt-dilution will wait for the right time to buy. It will use the same buy strategies that you already have for DCA coins but with no trailing. If you're just using Anderson, this means that pt-dilution will buy straight away. If you're using i.e RSI to time the buy, pt-dilution will wait for the RSI indicator to become true. Once the buy is made, a *market* order is sent to Binance.
 
 ### 5 Wait for PT2 to sell the coin
-At this stage, the pair should sit in the DCA log with a very low los. Hopefully, it will turn green and sell pretty quickly. pt-dilution waits until the the pair is gone from the DCA log meaning that it was sold. As soon as the coin is sold, pt-dilution removes the pending sale order from Binance and starts the process all over again.
+At this stage, the pair should sit in the DCA log with a very low loss, close to what you defined in ```targetLossLevel```. Hopefully, it will turn green and sell pretty quickly. pt-dilution waits until the the pair is gone from the DCA log meaning that it was sold. As soon as the coin is sold, pt-dilution removes the pending sale order from Binance and starts the process all over again, but with a slightly lower amount of the coin bagged up.
 
 ## Warnings and notes
  - You can follow what is happening via the PT2 web UI, but pt-dilutions main way of telling you what's going on is via the logfile (```logs/dcadiluter.log```) and state file (```state.json```)
  - Please note that if the coin goes south, pt-dilution does not offer a way out. All you can do is wait.
- - pt-dilution recalculates the number of slices needed for each round. 
+ - pt-dilution recalculates the number of slices needed for each round. Depending on how deep your bag is when each round starts, the number of needed slices may vary during the process.
  
 
 ## Config file

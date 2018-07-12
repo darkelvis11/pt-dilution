@@ -45,7 +45,6 @@ class Monitor
 
             switch ($activePair->state) {
                 case 'INITIATE_NEXT_SLICE':
-                    $activePair->activeSlice++;
                     $this->logger->info("Initiating slide {$activePair->activeSlice} for {$activePair->market} (1/2)");
 
                     if ($pendingPair) {
@@ -63,6 +62,7 @@ class Monitor
                         continue;
                     }
 
+                    $activePair->activeSlice++;
                     $slice = (object)[];
                     $slice->sliceNr = $activePair->activeSlice;
 
